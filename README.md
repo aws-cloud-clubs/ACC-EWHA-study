@@ -24,3 +24,25 @@ ACC EWHA 코딩테스트 스터디를 위한 리포지토리입니다.
 - `for (int b : dp.get(i-j))`
   - (i-j)번으로 만든 숫자 b
 - ConcurrentModificationException(동시 수정 예외) 를 방지하기 위해서 temp와 dp.get(i)를 나눠서 사용한다
+
+## 250512
+### 배열의_평균값
+```
+double answer = 0;
+answer = Arrays.stream(numbers).average().orElse(0);
+```
+- `stream()`은 배열을 스트림(Stream) 객체로 변환하는 메서드
+- 스트림은 데이터를  평균, 합계, 필터링, 매핑 같은 작업을 반복문 없이 간결하게 처리
+- `average()`는 스트림의 모든 숫자들의 평균값을 계산해서 `OptionalDouble`로 리턴
+- OptionalDouble은 결과가 없을 수도 있는 평균값을 담는 상자(객체)
+- 만약 배열이 비어 있어서 평균을 구할 수 없다면, `orElse(0)`을 통해 기본값 0을 반환
+### 뒤집힌_문자열
+```dockerfile
+StringBuilder sb = new StringBuilder(my_string);
+
+String result = sb.reverse().toString();
+```
+- `StringBuilder`는 `java.lang` 패키지에 포함된 클래스로, 문자열을 수정하거나 조작할 수 있도록 설계된 가변(mutable) 객체로 사용된다.
+- 문자열 수정 및 조작할 때 사용하는 메서드가 `append()`, `reverse()` 등이 있다. 
+- `toString()`은 뒤집한 결과를 리턴 타입에 맞춰서 다시 문자열로 변환해서 반환한다. 
+- 반면에, 자바의 `String`은 불변(immutable) 객체로, 수정할 수 없고 새로운 문자열이 만들어진다. 
