@@ -205,4 +205,19 @@ import java.util.stream.*;
 - `java.util `패키지는 컬렉션 클래스들을 포함: ArrayList, LinkedList, HashMap, HashSet 등
 - `java.util.stream `패키지는 스트림 API 관련 클래스들이 포함되어 있는 패키지
 
-###
+### 약수_구하기 
+```dockerfile
+if(n % (i+1) ==0 ){
+                list.add(i+1);
+            }
+```
+- 약수란, 1부터 자기자신까지 나누었을 때 나누어 떨어지는 수
+- n % i == 0 인 i는 모두 n의 약수
+
+```dockerfile
+answer = list.stream()
+                // i->i 도 가능. 자동 언박싱
+                .mapToInt(Integer::intValue)
+                .toArray();
+```
+- 리턴 타입이 기본형 배열이므로, 그에 맞추어서 리스트를 배열로 변환해주어야 한다. 
