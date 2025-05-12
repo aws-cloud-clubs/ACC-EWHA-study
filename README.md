@@ -145,3 +145,64 @@ Collections.reverse(list);               // 리스트 뒤집기
 
 ```
 - reverse() 같은 기능은 배열에는 직접 지원되지 않아서, 배열을 List로 변환하고 나서 Collections.reverse()를 사용
+
+#### 솔루션 1
+```dockerfile
+int[] answer = new int[num_list.length];
+        for (int i = 0; i < num_list.length; i++) {
+            answer[i] = num_list[num_list.length - 1 - i];
+        }
+```
+- 가장 기본, 배열로 풀기. 
+- 인덱스를 `[.length-1-i]` 로 두어 거꾸로 채운다. 
+
+#### 솔루션 2
+- 자바에서 `.stream()`은 컬렉션(Collection) 또는 배열을 스트림(Stream)으로 바꿔주는 메서드
+- 배열 또는 컬렉션의 데이터를 하나씩 처리
+- 우선, num_list 은 기본형 배열(`int[]`)이므로, 이를 스트림 연산을 하면 `IntStream` 이 된다.
+- 이유: `Arrays.stream(int[] array)` 메서드는 다음처럼 오버로딩되어 있다. 
+```dockerfile
+// 배열이 int[]일 경우
+public static IntStream stream(int[] array)
+
+```
+- **즉, 기본형 배열인 `int[]`을 스트림으로 변환하면 `IntStream을` 리턴!** >> 중요 
+#### 자바의 기본형과 객체형, 그리고 스트림 
+- 자바는 기본형(`int`, `double`, `long`)과 객체형(`Integer`, `Double`, `Long`)을 구분한다. 
+- `IntStream`: int 전용 스트림 (기본형 스트림) 
+- `Stream<Integer>`: `Integer` 객체용 스트림 (객체 스트림)
+- 그래서 `int[]` → `IntStream`
+- `Integer[]` → `Stream<Integer>`
+
+#### 기본형, 객체형 스트림 변환 
+```dockerfile
+Arrays.stream(num_list)     // int[] 배열 -> IntStream 배열을 스트림으로 
+      .boxed()              // IntStream -> Stream<Integer> 기본형 스트림을 객체용 스트림으로 
+      .collect(Collectors.toList()); // Stream<Integer>-> List<Integer> 리스트로 
+
+```
+- `IntStream을` `Stream<Integer>`로 바꾸고 싶을 때는 `.boxed()` 사용
+- `.boxed()`는 말 그대로 int → Integer로 박싱(boxing) 해주는 메서드. 즉, 기본형 스트림을 객체 스트림으로 바꿔주는 역할
+- 이유: `IntStream은` 기본형 int 값들만 다루는 스트림이에요. 반면 `List<Integer>`는 객체(Integer) 들로 구성된 리스트이므로,`IntStream` -> `List<Integer>`로 바로 변환 안됨! 
+- `.collect(Collectors.toList())` 는 Stream의 결과를 List로 모으는 메서드(Stream -> List)
+
+```dockerfile
+int[] answer = list.stream() // List<Integer> -> Stream<Integer> 
+            .mapToInt(Integer::intValue) // Stream<Integer> -> IntStream 
+            .toArray(); // IntStream을 int[] 배열로
+```
+- list는 `List<Integer>` 이다. 
+- `List<Integer>`에서 `stream()`을 쓰면 `Stream<Integer>`가 된다. 
+- 즉, Integer 객체들이 순차적으로 처리될 수 있게 스트림을 여는 것. 
+- 하지만 배열로 바꾸려면 `IntStream` 이어야 `toArray()`를 쓸 수 있기 때문에 `mapToInt()`를 쓴다. 
+- `mapToInt(Integer::intValue)`는 `Stream<Integer`>를 `IntStream`으로 바꿔주는 메서드
+
+#### import 
+```dockerfile
+import java.util.*;
+import java.util.stream.*;
+```
+- `java.util `패키지는 컬렉션 클래스들을 포함: ArrayList, LinkedList, HashMap, HashSet 등
+- `java.util.stream `패키지는 스트림 API 관련 클래스들이 포함되어 있는 패키지
+
+###
