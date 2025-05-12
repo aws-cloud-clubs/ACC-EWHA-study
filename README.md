@@ -46,3 +46,102 @@ String result = sb.reverse().toString();
 - 문자열 수정 및 조작할 때 사용하는 메서드가 `append()`, `reverse()` 등이 있다. 
 - `toString()`은 뒤집한 결과를 리턴 타입에 맞춰서 다시 문자열로 변환해서 반환한다. 
 - 반면에, 자바의 `String`은 불변(immutable) 객체로, 수정할 수 없고 새로운 문자열이 만들어진다. 
+
+### 짝수홀수_개수
+```dockerfile
+int[] answer = new int[2]
+.
+.
+answer[0]=evenCount;
+answer[1]=oddCount;
+```
+- 배열 선언 및 생성 먼저 해주어야 한다.
+- 배열은 인덱스로 값을 넣어야 한다. 
+#### 또다른 풀이 
+```dockerfile
+int[] answer = {}; // 필요없음. 길이가 0인 int 배열을 생성
+        answer = IntStream.of(
+
+                (int)Arrays.stream(numList)
+                        .filter(i-> i%2 ==0)
+                        .count(),
+                (int)Arrays.stream(numList)
+                        .filter(i->i%2 ==1)
+                        .count()
+
+        ).toArray();
+```
+- `numList` 배열을 Stream<Integer>로 변환
+- 조건(짝수만 걸러냄) 만족하는 값들만 남기기 위한 필터 
+- `.count()` 는 남은 요소들의 개수(짝수의 개수)
+- `.count()`는 long 타입을 반환하므로, int로 형변환 필요 
+- `IntStream.of(...)`는 IntStream 타입의 스트림 생성, `.toArray()`로 int 배열([])로 변환
+  - `IntStream stream = IntStream.of(1, 2, 3, 4, 5, 6); //IntStream 타입의 스트림`
+  - ```
+    // 배열의 for문 
+    // 이것보다 스트림에서 filter 적용한 것이 더 직관적이다. 
+    int[] arr = {1, 2, 3, 4, 5};
+    int sum = 0;
+    for (int i : arr) {
+    if (i % 2 == 0) sum += i;
+    }```
+
+### 아이스_아메리카노
+```dockerfile
+int[] answer = IntStream.of(
+                        money / 5500,
+                        money % 5500)
+                .toArray();
+```
+- `IntStream은` `java.util.stream.IntStream`에 있으므로 import 해주어야 한다. 
+- `IntStream.of(...)`는 여러 개의 int 값을 직접 스트림으로 만들 때 쓰는 것이다. 
+- 여기서는 money / 5500 과 money % 5500은 그냥 int 값 2개이므로, `Arrays.stream(...)`은 쓸 필요가 없다. 
+
+### 배열_뒤집기 
+#### List 와 Collection
+- List는 인터페이스이고, 자주 쓰는 대표 구현체는 ArrayList
+- 선언: `List<Integer> list = new ArrayList<>();`
+```dockerfile
+List<String> list = new ArrayList<>();
+list.add("hello");
+list.add("world");
+
+```
+- Collection은 List, Set, Queue 등을 포함하는 **상위 개념(인터페이스)** 이다.  즉, List도 Collection의 일종
+```dockerfile
+// 이렇게도 쓸 수 있다. 
+Collection<Integer> col = new ArrayList<>();
+col.add(1);
+col.add(2);
+
+```
+- List 같은 Collection들을 조작할 수 있는 유틸리티 클래스로, `Collections.reverse()`는 List를 뒤집을 때 자주 쓰는 유틸리티
+
+```dockerfile
+import java.util.*;
+
+List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3));
+Collections.reverse(list); // 리스트가 뒤집힌다. 
+System.out.println(list);  // 출력: [3, 2, 1]
+
+```
+- 자바는 List를 데이터 저장 구조로,
+  Collections를 조작 도구 유틸리티 클래스로 역할을 분리해 놓았어요.
+  그래서 .sort(), .reverse(), .shuffle() 같은 동작은 전부 Collections에서 처리하게 되어 있어요.
+
+#### List vs Array
+#### Array
+- int[], String[], 고정됨 (생성 시 정해진 크기 변경 불가)
+- 기본적인 요소 접근 (arr[i])만 가능
+- 기본 타입 배열 가능 (int[])
+#### List
+- List<Integer>, ArrayList<String>, 유동적 (요소 추가/삭제 가능)
+- 요소 추가, 삭제, 검색, 정렬 등 다양한 메서드 제공
+- 객체 타입만 가능 (List<Integer>, List<String>)
+```dockerfile
+String[] arr = {"a", "b", "c"};
+List<String> list = Arrays.asList(arr);  // 배열 → 리스트로 변환
+Collections.reverse(list);               // 리스트 뒤집기
+
+```
+- reverse() 같은 기능은 배열에는 직접 지원되지 않아서, 배열을 List로 변환하고 나서 Collections.reverse()를 사용
