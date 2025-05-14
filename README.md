@@ -221,3 +221,19 @@ answer = list.stream()
                 .toArray();
 ```
 - 리턴 타입이 기본형 배열이므로, 그에 맞추어서 리스트를 배열로 변환해주어야 한다. 
+
+### 특정_문자_제거하기 
+- Java에서 문자열(String)은 변경이 불가능한(immutable) 객체이므로, 언가를 바꾸고 싶으면, replace() 같은 메서드를 사용해서 바뀐 새 문자열을 리턴받아야 한다. 
+- 형식: `문자열.replace(바꿀_문자나_문자열, 바꾼_결과);`
+- ```
+  // 예시
+  "apple".replace("p", "b"); // → "abble"
+  "hello".replace("l", "");  // → "heo"
+  ```
+- **letter 를 제거하고 싶은 것이므루, letter 를 빈 문자열("")로 바꾸면 된다.** 
+```dockerfile
+        String answer = "";
+        answer = my_string.replace(letter, "");
+       
+        return answer;
+```
