@@ -237,3 +237,90 @@ answer = list.stream()
        
         return answer;
 ```
+## 20250518
+### 문자_반복_출력하기
+
+#### StringBuilder
+- 문자열을 효율적으로 연결할 수 있게 해주는 전용 클래스 
+- 문자열 덧붙이기(append)에 특화되어 있어서 문자열 연산이 많을 때 유리 
+```dockerfile
+StringBuilder sb = new StringBuilder();
+sb.append("a");
+sb.append("b");
+sb.append("c");
+
+String result = sb.toString(); // "abc"
+
+```
+- 만약 List를 사용한다면 문자열 연결할 때마다 임시 객체가 많이 만들어져 성능이 안 좋다. 
+```dockerfile
+List<String> list = new ArrayList<>();
+list.add("a");
+list.add("b");
+list.add("c");
+
+String result = String.join("", list); // "abc"
+
+```
+- List에 값을 저장한 뒤 `String.join()`이나 루프를 통해 이어붙여야 한다. 
+#### List 사용한 솔루션 
+```dockerfile
+ List<String> list = new ArrayList<>();
+
+        for (int i = 0; i < my_string.length(); i++) {
+            char ch = my_string.charAt(i);
+            for (int j = 0; j < n; j++) {
+                list.add(String.valueOf(ch));  // 문자 → 문자열로 변환 후 추가
+            }
+        }
+
+        // 리스트 안의 문자열을 전부 이어붙이기
+        return String.join("", list);
+```
+#### cf. 문자열(String) 과 문자(char)는 다르다 
+- `char ch = my_string.charAt(i);` : **문자열(String)에서 문자 하나를 꺼내는 메서드는 charAt(인덱스)**
+- `List.add(String.valueOf(ch));` : **문자(char) 타입은 List<String>에 바로 넣을 수 없기 때문에 String.valueOf()로 변환**
+- `String.join("", list);` : 리스트 안에 있는 문자열을 하나의 문자열로 합쳐서 반환
+#### StringBuilder 사용한 솔루션 
+```dockerfile
+class Solution {
+    public String solution(String my_string, int n) {
+        StringBuilder answer = new StringBuilder();  // 성능 좋은 StringBuilder 사용
+
+        for (int i = 0; i < my_string.length(); i++) {
+            char ch = my_string.charAt(i);  // 한 문자 꺼내기, 타입이 char(문자) 
+            for (int j = 0; j < n; j++) {
+                answer.append(ch);  // n번 추가
+            }
+        }
+
+        return answer.toString();  // 최종 문자열 반환
+    }
+}
+
+```
+- 바깥 루프: 문자 하나씩
+- 안쪽 루프: 해당 문자를 n번 추가
+- `answer.append(ch);` : StringBuilder에 글자를 붙이는 메서드
+- `return answer.toString();` : answer 는 StringBuilder 클래스의 객체이다. 하지만 함수의 반환 타입은 String 이므로 (public String), 마지막에 StringBuilder 를 String으로 바꾸어주어야 한다.
+
+#### 기본적인 솔루션 
+```dockerfile
+  for(int i=0; i<my_string.length(); i++){
+            for(int j=0; j<n; j++){
+                answer+=my_string.charAt(i);
+            }
+        }
+```
+- 문자(char) 을 += 으로 이어붙여서 문자열(String) 만드는 것 
+
+#### 응용된 솔루션 
+```dockerfile
+StringBuilder sb = new StringBuilder();
+        for(char c : my_string.toCharArray()){
+            sb.append((c + "").repeat(n));
+        }
+        return sb.toString();
+    }
+```
+- my_string.toCharArray() : 
